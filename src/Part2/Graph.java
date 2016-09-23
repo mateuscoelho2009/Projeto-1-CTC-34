@@ -74,4 +74,31 @@ public class Graph {
 		
 		return isOk;
 	}
+	
+	/*
+	 * 
+	 */
+	public String generateGraphviz () {
+		String s = "digraph G {\n";
+		
+		s += "node [shape = doublecircle]; ";
+		
+		for (int i = 0; i < nodes_.size(); i++) {
+			GraphNode gn = nodes_.get(i);
+			
+			if (gn.isStable()) {
+				s += nodes_.get(i).getId() + " ";
+			}
+		}
+		
+		s += "\nnode [shape = circle]\n";
+		
+		for (int i = 0; i < edges_.size(); i++) {
+			s += "	" + edges_.get(i) + "\n";
+		}
+		
+		s += "\n}";
+		
+		return s;
+	}
 }

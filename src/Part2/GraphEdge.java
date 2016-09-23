@@ -21,4 +21,9 @@ public class GraphEdge {
 	public String getCost () {
 		return cost_;
 	}
+	
+	@Override
+	public String toString () {
+		return "\"" + beg_.getId() + "\" -> \"" + end_.getId() + "\"" + "[ label = \"" + cost_ + "\" ]";
+	}
 }
