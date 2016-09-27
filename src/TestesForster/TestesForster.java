@@ -12,7 +12,6 @@ public class TestesForster {
 	@Test
 	public void FirstTest() {
 		AFN afn = new AFN("(a+b)*bb(b+a)*");
-		afn.print();
 		Graph g = afn.generateGraph();
 		assertEquals (false, g.verifyExpression("ab"));
 		assertEquals (true, g.verifyExpression("abb"));
@@ -44,11 +43,10 @@ public class TestesForster {
 	public void FourthTest() {
 		AFN afn = new AFN("a*b*c*");
 		Graph g = afn.generateGraph();
+		System.out.println(g.generateGraphviz());
 		assertEquals (true, g.verifyExpression("ab"));
 		assertEquals (true, g.verifyExpression("abb"));
 		assertEquals (false, g.verifyExpression("bba"));
 		assertEquals (false, g.verifyExpression("abba"));
-		
-		System.out.println(g.generateGraphviz());
 	}
 }

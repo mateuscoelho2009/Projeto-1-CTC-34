@@ -37,7 +37,7 @@ public class AFN {
 		stableStates_.remove(1);
 		stableStates_.add(1, true);
 		starterStates_.remove(0);
-		starterStates_.add(0, false);
+		starterStates_.add(0, true);
 		
 		visitedEdges_ = new ArrayList<Boolean>();
 		for (int i = 0; i < edges_.size(); i++){
