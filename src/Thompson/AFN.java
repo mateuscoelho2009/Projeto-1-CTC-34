@@ -88,17 +88,27 @@ public class AFN {
 			if (edges_.get(k).getCost().equals("&")){
 				int init = edges_.get(k).getIni();
 				int end = edges_.get(k).getFim();
+				boolean hasLoopBefore = false;
+				String LoopBeforeCost = "";
 				for (int i = 0; i < edges_.size(); i++){
 					if (edges_.get(i).getIni() == end){
 						Edge newedge = new Edge(edges_.get(i).getCost(), init, edges_.get(i).getFim());
 						edges_.add(newedge);
 					}
+					if (edges_.get(i).getIni() == init && edges_.get(i).getFim() == init){
+						hasLoopBefore = true;
+						LoopBeforeCost = edges_.get(i).getCost();
+					}
 				}
+				
+				if (hasLoopBefore)
+					edges_.add(new Edge(LoopBeforeCost,init,end));
+				
 				edges_.remove(k);
 			}
 		}
 		
-		// Mais uma vez, para lidar com loops
+		// Mais uma vez, para lidar com loops de transicao epsilon
 		for (int k = 0; k < edges_.size(); k++){
 			if (edges_.get(k).getCost().equals("&")){
 				int init = edges_.get(k).getIni();
@@ -116,19 +126,19 @@ public class AFN {
 	
 	public static void main(String[] args){
 		ArrayList<Edge> a = new ArrayList<Edge>();
-		/*a.add(new Edge("&",0,4));
+		a.add(new Edge("&",0,4));
 		a.add(new Edge("a",4,4));
 		a.add(new Edge("&",4,2));
 		a.add(new Edge("b",2,1));
 		a.add(new Edge("&",0,5));
 		a.add(new Edge("b",5,5));
 		a.add(new Edge("&",5,3));
-		a.add(new Edge("a",3,1));*/
+		a.add(new Edge("a",3,1));
 		
-		a.add(new Edge("&",0,2));
+		/*a.add(new Edge("&",0,2));
 		a.add(new Edge("&",2,1));
 		a.add(new Edge("b,c",3,2));
-		a.add(new Edge("a",2,3));
+		a.add(new Edge("a",2,3));*/
 		
 		/*a.add(new Edge("&",0,3));
 		a.add(new Edge("a,b",3,3));
@@ -141,7 +151,8 @@ public class AFN {
 				
 		AFN afn = new AFN(a,7);
 		afn.removeEpsilonTransitions();
-		afn.print();
+		//afn.print();
+		System.out.println(afn.generateGraph().generateGraphviz());
 	}
 
 }
