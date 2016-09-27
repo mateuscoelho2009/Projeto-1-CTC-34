@@ -3,7 +3,7 @@ import static org.junit.Assert.*;
 
 import java.util.ArrayList;
 
-import Part2.Graph;
+import Graph.Graph;
 
 
 public class Test {
@@ -113,22 +113,17 @@ public class Test {
 	}
 	
 	@org.junit.Test
-	public void MigSonTestes() {
-		//AFN afn = new AFN("a*b*c*");
-		//Graph gOld = afn.generateGraph();
-		//System.out.println(gOld.generateGraphviz());
-		//System.out.println();
-		
-		//afn.removeEpsilonTransitions();
-		
-		//Graph g = afn.generateGraph();
-		//System.out.println(g.generateGraphviz());
-	}
-	
-	@org.junit.Test
-	public void RegexTest(){
+	public void GraphGenerationTest() {
 		AFN afn = new AFN("a*b*c*");
-		System.out.println(afn.generateGraph().generateGraphviz());
-		assertEquals("a*b*c*",afn.getRegex());
+		Graph gOld = afn.generateGraph();
+		System.out.println("Grafo original:");
+		System.out.println(gOld.generateGraphviz());
+		System.out.println();
+		
+		afn.removeEpsilonTransitions();
+		
+		Graph g = afn.generateGraph();
+		System.out.println("Grafo sem transições nulas:");
+		System.out.println(g.generateGraphviz());
 	}
 }

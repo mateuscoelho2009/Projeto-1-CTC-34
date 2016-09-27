@@ -4,7 +4,7 @@ import static org.junit.Assert.*;
 
 import org.junit.Test;
 
-import Part2.Graph;
+import Graph.Graph;
 import Thompson.AFN;
 
 public class TestesForster {

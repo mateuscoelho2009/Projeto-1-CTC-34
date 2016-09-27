@@ -1,4 +1,4 @@
-package Part2;
+package Graph;
 
 import static org.junit.Assert.*;
 

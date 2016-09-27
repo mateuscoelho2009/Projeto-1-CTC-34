@@ -1,9 +1,9 @@
 package Thompson;
 import java.util.ArrayList;
 
-import Part2.Graph;
-import Part2.GraphEdge;
-import Part2.GraphNode;
+import Graph.Graph;
+import Graph.GraphEdge;
+import Graph.GraphNode;
 
 
 public class AFN {

@@ -1,4 +1,4 @@
-package Part2;
+package Graph;
 
 public class GraphEdge {
 	private GraphNode beg_, end_;

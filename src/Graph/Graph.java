@@ -1,4 +1,4 @@
-package Part2;
+package Graph;
 
 import java.util.ArrayList;
 
@@ -91,7 +91,7 @@ public class Graph {
 			}
 		}
 		
-		s += "\nnode [style=filled,color=lightgrey]; ";
+		s += "\nnode [shape=doublecircle,style=filled,color=lightgrey]; ";
 		
 		for (int i = 0; i < nodes_.size(); i++) {
 			GraphNode gn = nodes_.get(i);
@@ -101,9 +101,7 @@ public class Graph {
 			}
 		}
 		
-		s += "\nnode [shape = circle]\n";
-		
-		s += "\nnode [style=filled,color=lightgrey]; ";
+		s += "\nnode [shape=circle,style=filled,color=lightgrey]; ";
 		
 		for (int i = 0; i < nodes_.size(); i++) {
 			GraphNode gn = nodes_.get(i);
@@ -112,6 +110,8 @@ public class Graph {
 				s += nodes_.get(i).getId() + " ";
 			}
 		}
+		
+		s += "\nnode [shape=circle,style=solid,color=black]\n";
 		
 		for (int i = 0; i < edges_.size(); i++) {
 			s += "	" + edges_.get(i) + "\n";
