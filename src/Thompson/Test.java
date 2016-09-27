@@ -1,6 +1,10 @@
 package Thompson;
 import static org.junit.Assert.*;
 
+import java.util.ArrayList;
+
+import Part2.Graph;
+
 
 public class Test {
 	
@@ -106,6 +110,15 @@ public class Test {
 		AFN afn = new AFN ("(ab)+(ca)+(g(f+e)*)");
 		assertEquals(afn.getNumEdges(), 9);
 		assertEquals(afn.getNumStates(), 6);
+	}
+	
+	@org.junit.Test
+	public void MigSonTestes() {
+		AFN afn = new AFN("a*");
+		afn.removeEpsilonTransitions();
+		
+		Graph g = afn.generateGraph();
+		System.out.println(g.generateGraphviz());
 	}
 	
 }
