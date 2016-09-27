@@ -12,6 +12,7 @@ public class TestesForster {
 	@Test
 	public void FirstTest() {
 		AFN afn = new AFN("(a+b)*bb(b+a)*");
+		afn.print();
 		Graph g = afn.generateGraph();
 		assertEquals (false, g.verifyExpression("ab"));
 		assertEquals (true, g.verifyExpression("abb"));

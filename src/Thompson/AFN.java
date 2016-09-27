@@ -27,6 +27,11 @@ public class AFN {
 			if (edge.getIni() >= numStates_) numStates_ = edge.getIni() + 1;
 		}
 	}
+	
+	public AFN(ArrayList<Edge> edges, int numStates){
+		edges_ = edges;
+		numStates_ = numStates;
+	}
 
 	public int getNumEdges() {
 		return edges_.size();
@@ -65,6 +70,67 @@ public class AFN {
 		}
 		
 		return new Graph (nodes, edges);
+	}
+	
+	public void removeEpsilonTransitions(){
+		for (int k = 0; k < edges_.size(); k++){
+			if (edges_.get(k).getCost().equals("#")){
+				int init = edges_.get(k).getIni();
+				int end = edges_.get(k).getFim();
+				for (int i = 0; i < edges_.size(); i++){
+					if (edges_.get(i).getIni() == end){
+						Edge newedge = new Edge(edges_.get(i).getCost(), init, edges_.get(i).getFim());
+						edges_.add(newedge);
+					}
+				}
+				edges_.remove(k);
+			}
+		}
+		
+		// Mais uma vez, para lidar com loops
+		for (int k = 0; k < edges_.size(); k++){
+			if (edges_.get(k).getCost().equals("#")){
+				int init = edges_.get(k).getIni();
+				int end = edges_.get(k).getFim();
+				for (int i = 0; i < edges_.size(); i++){
+					if (edges_.get(i).getIni() == end){
+						Edge newedge = new Edge(edges_.get(i).getCost(), init, edges_.get(i).getFim());
+						edges_.add(newedge);
+					}
+				}
+				edges_.remove(k);
+			}
+		}
+	}
+	
+	public static void main(String[] args){
+		ArrayList<Edge> a = new ArrayList<Edge>();
+		/*a.add(new Edge("#",0,4));
+		a.add(new Edge("a",4,4));
+		a.add(new Edge("#",4,2));
+		a.add(new Edge("b",2,1));
+		a.add(new Edge("#",0,5));
+		a.add(new Edge("b",5,5));
+		a.add(new Edge("#",5,3));
+		a.add(new Edge("a",3,1));*/
+		
+		a.add(new Edge("#",0,2));
+		a.add(new Edge("#",2,1));
+		a.add(new Edge("b,c",3,2));
+		a.add(new Edge("a",2,3));
+		
+		/*a.add(new Edge("#",0,3));
+		a.add(new Edge("a,b",3,3));
+		a.add(new Edge("#",3,2));
+		a.add(new Edge("b",2,4));
+		a.add(new Edge("b",4,5));
+		a.add(new Edge("#",5,6));
+		a.add(new Edge("a,b",6,6));
+		a.add(new Edge("#",6,1));*/
+				
+		AFN afn = new AFN(a,7);
+		afn.removeEpsilonTransitions();
+		afn.print();
 	}
 
 }
