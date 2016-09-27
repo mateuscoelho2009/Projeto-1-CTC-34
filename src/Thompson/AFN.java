@@ -167,7 +167,26 @@ public class AFN {
 		}
 	}
 
-	private boolean checkStability(int index) {		
+	private boolean checkStability(int index) {
+		boolean isInitialState = true;
+		
+		for (int i = 0; i < edges_.size(); i++) {
+			if (edges_.get(i).getFim() == index)
+				isInitialState = false;
+		}
+		
+		if (isInitialState) {
+			isInitialState = false;
+			
+			for (int i = 0; i < edges_.size(); i++) {
+				if (edges_.get(i).getIni() == index)
+					isInitialState = true;
+			}
+			
+			starterStates_.remove(index);
+			starterStates_.add(index, isInitialState);
+		}
+		
 		for (int i = 0; i < edges_.size(); i++) {			
 			if (edges_.get(i).getIni() == index &&
 					edges_.get(i).getCost().equals("&")) {

@@ -86,12 +86,32 @@ public class Graph {
 		for (int i = 0; i < nodes_.size(); i++) {
 			GraphNode gn = nodes_.get(i);
 			
-			if (gn.isStable()) {
+			if (gn.isStable() && !gn.isInitial()) {
+				s += nodes_.get(i).getId() + " ";
+			}
+		}
+		
+		s += "\nnode [style=filled,color=lightgrey]; ";
+		
+		for (int i = 0; i < nodes_.size(); i++) {
+			GraphNode gn = nodes_.get(i);
+			
+			if (gn.isInitial() && gn.isStable()) {
 				s += nodes_.get(i).getId() + " ";
 			}
 		}
 		
 		s += "\nnode [shape = circle]\n";
+		
+		s += "\nnode [style=filled,color=lightgrey]; ";
+		
+		for (int i = 0; i < nodes_.size(); i++) {
+			GraphNode gn = nodes_.get(i);
+			
+			if (gn.isInitial() && !gn.isStable()) {
+				s += nodes_.get(i).getId() + " ";
+			}
+		}
 		
 		for (int i = 0; i < edges_.size(); i++) {
 			s += "	" + edges_.get(i) + "\n";

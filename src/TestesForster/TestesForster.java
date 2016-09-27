@@ -33,6 +33,9 @@ public class TestesForster {
 	public void ThirdTest() {
 		AFN afn = new AFN("a*b+b*a");
 		Graph g = afn.generateGraph();
+		afn.removeEpsilonTransitions();
+		g = afn.generateGraph();
+		System.out.println(g.generateGraphviz());
 		assertEquals (true, g.verifyExpression("ab"));
 		assertEquals (false, g.verifyExpression("abb"));
 		assertEquals (true, g.verifyExpression("bba"));
@@ -43,7 +46,8 @@ public class TestesForster {
 	public void FourthTest() {
 		AFN afn = new AFN("a*b*c*");
 		Graph g = afn.generateGraph();
-		System.out.println(g.generateGraphviz());
+		afn.removeEpsilonTransitions();
+		g = afn.generateGraph();
 		assertEquals (true, g.verifyExpression("ab"));
 		assertEquals (true, g.verifyExpression("abb"));
 		assertEquals (false, g.verifyExpression("bba"));
