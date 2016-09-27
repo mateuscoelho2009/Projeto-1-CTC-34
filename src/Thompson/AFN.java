@@ -64,13 +64,8 @@ public class AFN {
 		ArrayList <GraphEdge> edges = new ArrayList <GraphEdge> ();
 		
 		// Gerar Nós e Arestas
-		GraphNode nn = new GraphNode(0, false, true);
-		nodes.add(nn);
-		nn = new GraphNode(1, true, false);
-		nodes.add(nn);
-		
-		for (int i = 2; i < numStates_; i++) {
-			nn = new GraphNode(i, false, false);
+		for (int i = 0; i < numStates_; i++) {
+			GraphNode nn = new GraphNode(i, stableStates_.get(i), starterStates_.get(i));
 			nodes.add(nn);
 		}
 		
@@ -86,6 +81,8 @@ public class AFN {
 	}
 	
 	public void removeEpsilonTransitions(){
+		atuStableStates();
+		
 		for (int k = 0; k < edges_.size(); k++){
 			if (edges_.get(k).getCost().equals("&")){
 				int init = edges_.get(k).getIni();
@@ -124,6 +121,8 @@ public class AFN {
 				edges_.remove(k);
 			}
 		}
+		
+		atuStableStates();
 	}
 	
 	public String getRegex(){
@@ -140,6 +139,40 @@ public class AFN {
 				st.push(e);
 		}
 		
+	private void atuStableStates() {
+		for (int i = 0; i < numStates_; i++) {
+			checkStability(i);
+		}
+	}
+
+	private boolean checkStability(int index) {		
+		for (int i = 0; i < edges_.size(); i++) {			
+			if (edges_.get(i).getIni() == index &&
+					edges_.get(i).getCost().equals("&")) {
+				if (checkStability(edges_.get(i).getFim())) {
+					stableStates_.remove(index);
+					stableStates_.add(index, true);
+					
+					return true;
+				}
+			}
+		}
+		
+		if (stableStates_.get(index)) {
+			for (int i = 0; i < edges_.size(); i++) {			
+				if (edges_.get(i).getIni() == index ||
+						edges_.get(i).getFim() == index) {
+					return true;
+				}
+			}
+			
+			stableStates_.remove(index);
+			stableStates_.add(index, false);
+			
+			return false;
+		}
+		
+		return false;
 	}
 
 	public static void main(String[] args){
