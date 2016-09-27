@@ -115,6 +115,10 @@ public class Test {
 	@org.junit.Test
 	public void MigSonTestes() {
 		AFN afn = new AFN("a*");
+		Graph gOld = afn.generateGraph();
+		System.out.println(gOld.generateGraphviz());
+		System.out.println();
+		
 		afn.removeEpsilonTransitions();
 		
 		Graph g = afn.generateGraph();

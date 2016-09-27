@@ -10,6 +10,8 @@ public class AFN {
 
 	ArrayList <Edge> edges_;
 	int numStates_;
+	ArrayList<Boolean> stableStates_ = new ArrayList<Boolean>();
+	ArrayList<Boolean> starterStates_ = new ArrayList<Boolean>();
 	
 	public AFN(String string) {
 		edges_ = new ArrayList<Edge>();
@@ -26,6 +28,15 @@ public class AFN {
 			if (edge.getFim() >= numStates_) numStates_ = edge.getFim() + 1;
 			if (edge.getIni() >= numStates_) numStates_ = edge.getIni() + 1;
 		}
+		
+		for (int i = 0; i < numStates_; i++){
+			stableStates_.add(false);
+			starterStates_.add(false);
+		}
+		stableStates_.remove(1);
+		stableStates_.add(1, true);
+		starterStates_.remove(0);
+		starterStates_.add(0, false);
 	}
 	
 	public AFN(ArrayList<Edge> edges, int numStates){
