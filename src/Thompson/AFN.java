@@ -1,5 +1,6 @@
 package Thompson;
 import java.util.ArrayList;
+import java.util.Stack;
 
 import Part2.Graph;
 import Part2.GraphEdge;
@@ -12,6 +13,7 @@ public class AFN {
 	int numStates_;
 	ArrayList<Boolean> stableStates_ = new ArrayList<Boolean>();
 	ArrayList<Boolean> starterStates_ = new ArrayList<Boolean>();
+	ArrayList<Edge> regexEdges_;
 	
 	public AFN(String string) {
 		edges_ = new ArrayList<Edge>();
@@ -124,6 +126,22 @@ public class AFN {
 		}
 	}
 	
+	public String getRegex(){
+		Stack<Edge> st = new Stack<Edge>();
+		regexEdges_ = new ArrayList<Edge>();
+		recursionRegex(st,0,"");
+		String regex = "";
+		return regex;
+	}
+	
+	private void recursionRegex(Stack<Edge> st, int i, String s) {
+		for (Edge e : edges_){
+			if (e.getIni() == i)
+				st.push(e);
+		}
+		
+	}
+
 	public static void main(String[] args){
 		ArrayList<Edge> a = new ArrayList<Edge>();
 		a.add(new Edge("&",0,4));
