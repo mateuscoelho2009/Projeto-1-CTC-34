@@ -1,6 +1,5 @@
 package Thompson;
 import java.util.ArrayList;
-import java.util.Stack;
 
 import Part2.Graph;
 import Part2.GraphEdge;
@@ -13,7 +12,7 @@ public class AFN {
 	int numStates_;
 	ArrayList<Boolean> stableStates_ = new ArrayList<Boolean>();
 	ArrayList<Boolean> starterStates_ = new ArrayList<Boolean>();
-	ArrayList<Edge> regexEdges_;
+	ArrayList<Boolean> visitedEdges_;
 	
 	public AFN(String string) {
 		edges_ = new ArrayList<Edge>();
@@ -39,11 +38,11 @@ public class AFN {
 		stableStates_.add(1, true);
 		starterStates_.remove(0);
 		starterStates_.add(0, false);
-	}
-	
-	public AFN(ArrayList<Edge> edges, int numStates){
-		edges_ = edges;
-		numStates_ = numStates;
+		
+		visitedEdges_ = new ArrayList<Boolean>();
+		for (int i = 0; i < edges_.size(); i++){
+			visitedEdges_.add(false);
+		}
 	}
 
 	public int getNumEdges() {
@@ -126,18 +125,41 @@ public class AFN {
 	}
 	
 	public String getRegex(){
-		Stack<Edge> st = new Stack<Edge>();
-		regexEdges_ = new ArrayList<Edge>();
-		recursionRegex(st,0,"");
 		String regex = "";
+		
+		for (Edge e : edges_){
+			if (e.getIni() == 0){
+				regex += recursionRegex(e, "");
+				regex += "+";
+			}
+		}
+		regex = regex.substring(0,regex.length()-1);
 		return regex;
 	}
 	
-	private void recursionRegex(Stack<Edge> st, int i, String s) {
-		for (Edge e : edges_){
-			if (e.getIni() == i)
-				st.push(e);
+	private String recursionRegex(Edge e, String s) {
+		if (e.getFim() == 1)
+			return e.getCost();
+		Edge newedge = null;
+		for (Edge it : edges_){
+			int i = edges_.indexOf(it);
+			if (it.getIni() == e.getFim() && !visitedEdges_.get(i)){
+				visitedEdges_.remove(i);
+				visitedEdges_.add(i, true);
+				
+				if (it.getIni() == it.getFim())
+					s += it.getCost() + "*";
+				
+				else{
+					newedge = it;
+					break;
+				}
+			}
 		}
+		if (!newedge.getCost().equals("&"))
+			s = s + newedge.getCost();
+		return s + recursionRegex(newedge, s);
+	}
 		
 	private void atuStableStates() {
 		for (int i = 0; i < numStates_; i++) {
@@ -173,37 +195,6 @@ public class AFN {
 		}
 		
 		return false;
-	}
-
-	public static void main(String[] args){
-		ArrayList<Edge> a = new ArrayList<Edge>();
-		a.add(new Edge("&",0,4));
-		a.add(new Edge("a",4,4));
-		a.add(new Edge("&",4,2));
-		a.add(new Edge("b",2,1));
-		a.add(new Edge("&",0,5));
-		a.add(new Edge("b",5,5));
-		a.add(new Edge("&",5,3));
-		a.add(new Edge("a",3,1));
-		
-		/*a.add(new Edge("&",0,2));
-		a.add(new Edge("&",2,1));
-		a.add(new Edge("b,c",3,2));
-		a.add(new Edge("a",2,3));*/
-		
-		/*a.add(new Edge("&",0,3));
-		a.add(new Edge("a,b",3,3));
-		a.add(new Edge("&",3,2));
-		a.add(new Edge("b",2,4));
-		a.add(new Edge("b",4,5));
-		a.add(new Edge("&",5,6));
-		a.add(new Edge("a,b",6,6));
-		a.add(new Edge("&",6,1));*/
-				
-		AFN afn = new AFN(a,7);
-		afn.removeEpsilonTransitions();
-		//afn.print();
-		System.out.println(afn.generateGraph().generateGraphviz());
 	}
 
 }

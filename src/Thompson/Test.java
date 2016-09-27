@@ -114,15 +114,21 @@ public class Test {
 	
 	@org.junit.Test
 	public void MigSonTestes() {
-		AFN afn = new AFN("a*b*c*");
-		Graph gOld = afn.generateGraph();
-		System.out.println(gOld.generateGraphviz());
-		System.out.println();
+		//AFN afn = new AFN("a*b*c*");
+		//Graph gOld = afn.generateGraph();
+		//System.out.println(gOld.generateGraphviz());
+		//System.out.println();
 		
-		afn.removeEpsilonTransitions();
+		//afn.removeEpsilonTransitions();
 		
-		Graph g = afn.generateGraph();
-		System.out.println(g.generateGraphviz());
+		//Graph g = afn.generateGraph();
+		//System.out.println(g.generateGraphviz());
 	}
 	
+	@org.junit.Test
+	public void RegexTest(){
+		AFN afn = new AFN("a*b*c*");
+		System.out.println(afn.generateGraph().generateGraphviz());
+		assertEquals("a*b*c*",afn.getRegex());
+	}
 }
