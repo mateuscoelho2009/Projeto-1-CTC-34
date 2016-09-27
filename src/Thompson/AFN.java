@@ -62,13 +62,8 @@ public class AFN {
 		ArrayList <GraphEdge> edges = new ArrayList <GraphEdge> ();
 		
 		// Gerar Nós e Arestas
-		GraphNode nn = new GraphNode(0, false, true);
-		nodes.add(nn);
-		nn = new GraphNode(1, true, false);
-		nodes.add(nn);
-		
-		for (int i = 2; i < numStates_; i++) {
-			nn = new GraphNode(i, false, false);
+		for (int i = 0; i < numStates_; i++) {
+			GraphNode nn = new GraphNode(i, stableStates_.get(i), starterStates_.get(i));
 			nodes.add(nn);
 		}
 		
@@ -84,6 +79,8 @@ public class AFN {
 	}
 	
 	public void removeEpsilonTransitions(){
+		atuStableStates ();
+		
 		for (int k = 0; k < edges_.size(); k++){
 			if (edges_.get(k).getCost().equals("&")){
 				int init = edges_.get(k).getIni();
@@ -124,6 +121,26 @@ public class AFN {
 		}
 	}
 	
+	private void atuStableStates() {
+		for (int i = 0; i < numStates_; i++) {
+			checkStability(i);
+		}
+	}
+
+	private boolean checkStability(int index) {
+		if (stableStates_.get(index)) {
+			return true;
+		}
+		
+		for (int i = 0; i < edges_.size(); i++) {
+			//if () {
+				
+			//}
+		}
+		
+		return false;
+	}
+
 	public static void main(String[] args){
 		ArrayList<Edge> a = new ArrayList<Edge>();
 		a.add(new Edge("&",0,4));
