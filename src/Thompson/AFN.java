@@ -79,7 +79,7 @@ public class AFN {
 	}
 	
 	public void removeEpsilonTransitions(){
-		atuStableStates ();
+		atuStableStates();
 		
 		for (int k = 0; k < edges_.size(); k++){
 			if (edges_.get(k).getCost().equals("&")){
@@ -119,6 +119,8 @@ public class AFN {
 				edges_.remove(k);
 			}
 		}
+		
+		atuStableStates();
 	}
 	
 	private void atuStableStates() {
@@ -127,15 +129,31 @@ public class AFN {
 		}
 	}
 
-	private boolean checkStability(int index) {
-		if (stableStates_.get(index)) {
-			return true;
+	private boolean checkStability(int index) {		
+		for (int i = 0; i < edges_.size(); i++) {			
+			if (edges_.get(i).getIni() == index &&
+					edges_.get(i).getCost().equals("&")) {
+				if (checkStability(edges_.get(i).getFim())) {
+					stableStates_.remove(index);
+					stableStates_.add(index, true);
+					
+					return true;
+				}
+			}
 		}
 		
-		for (int i = 0; i < edges_.size(); i++) {
-			//if () {
-				
-			//}
+		if (stableStates_.get(index)) {
+			for (int i = 0; i < edges_.size(); i++) {			
+				if (edges_.get(i).getIni() == index ||
+						edges_.get(i).getFim() == index) {
+					return true;
+				}
+			}
+			
+			stableStates_.remove(index);
+			stableStates_.add(index, false);
+			
+			return false;
 		}
 		
 		return false;
